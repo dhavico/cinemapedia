@@ -16,8 +16,8 @@ class MovieMapper {
       popularity: moviedb.popularity,
       posterPath: (moviedb.posterPath != '')
           ? 'https://image.tmdb.org/t/p/w500${moviedb.posterPath}'
-          : 'no-poster',
-      //: 'https://sd.keepcalms.com/i/keep-calm-poster-not-found.png',
+          //: 'no-poster',
+          : 'https://www.movienewz.com/img/films/poster-holder.jpg',
       releaseDate: moviedb.releaseDate,
       title: moviedb.title,
       video: moviedb.video,
@@ -38,7 +38,7 @@ class MovieMapper {
       posterPath: (moviedb.posterPath != '')
           ? 'https://image.tmdb.org/t/p/w500${moviedb.posterPath}'
           //: 'no-poster',
-          : 'https://sd.keepcalms.com/i/keep-calm-poster-not-found.png',
+          : 'https://www.movienewz.com/img/films/poster-holder.jpg',
       releaseDate: moviedb.releaseDate,
       title: moviedb.title,
       video: moviedb.video,
