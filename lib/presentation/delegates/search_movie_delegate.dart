@@ -67,7 +67,6 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
           initialData: false,
           stream: isLoadingStream.stream,
           builder: (context, snapshot) {
-            print("data ${snapshot.data}");
             if (snapshot.data ?? false) {
               return SpinPerfect(
                   duration: const Duration(seconds: 20),
