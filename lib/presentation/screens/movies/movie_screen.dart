@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cinemapedia/presentation/providers/providers.dart';
@@ -20,6 +21,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     super.initState();
     ref.read(movieInfoProvider.notifier).loadMovie(widget.movieId);
     ref.read(actorsByMovieProvider.notifier).loadActors(widget.movieId);
+    ref.read(videosByMovieProvider.notifier).loadVideos(widget.movieId);
   }
 
   @override
@@ -102,7 +104,10 @@ class _MovieDetails extends StatelessWidget {
 
         //Actores
         _ActorsByMovie(movieId: movie.id.toString()),
-        const SizedBox(height: 50)
+
+        //Videos
+        _VideosByMovie(movieId: movie.id.toString()),
+        const SizedBox(height: 20),
       ],
     );
   }
@@ -164,6 +169,83 @@ class _ActorsByMovie extends ConsumerWidget {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class _VideosByMovie extends ConsumerWidget {
+  final String movieId;
+  const _VideosByMovie({required this.movieId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final titleStyle = Theme.of(context).textTheme.titleLarge;
+    final sized = MediaQuery.of(context).size;
+    final videosByMovie = ref.watch(videosByMovieProvider);
+    if (videosByMovie[movieId] == null) {
+      return const CircularProgressIndicator(strokeWidth: 2);
+    }
+
+    final videos = videosByMovie[movieId]!;
+    if (videos.isEmpty) return const SizedBox();
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Videos',
+            style: titleStyle,
+            textAlign: TextAlign.start,
+          ),
+
+          SizedBox(
+            height: 220,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: videos.length,
+              itemBuilder: (context, index) {
+                final video = videos[index];
+                return Container(
+                  padding: const EdgeInsets.only(right: 10),
+                  width: sized.width * 0.9,
+                  child: YoutubeVideoPlayer(
+                      youtubeId: video.key, name: video.name),
+                );
+              },
+            ),
+          ),
+          // ...videos
+          //     .map((video) =>
+          //         YoutubeVideoPlayer(youtubeId: video.key, name: video.name))
+          //     .toList(),
+
+          // SizedBox(
+          //   height: 220,
+          //   child: ListView.builder(
+          //     scrollDirection: Axis.horizontal,
+          //     itemCount: videos.length,
+          //     itemBuilder: (context, index) {
+          //       final video = videos[index];
+          //       return Container(
+          //         padding: const EdgeInsets.only(right: 10),
+          //         width: sized.width * 0.9,
+          //         child: Image.network(
+          //           'https://img.youtube.com/vi/${video.key}/maxresdefault.jpg',
+          //           fit: BoxFit.cover,
+          //           errorBuilder: (context, error, stackTrace) {
+          //             return Image.network(
+          //               'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg',
+          //               fit: BoxFit.cover,
+          //             );
+          //           },
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // )
+        ],
       ),
     );
   }

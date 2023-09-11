@@ -17,15 +17,15 @@ class MoviePosterLink extends StatelessWidget {
           child: Stack(
             children: [
               Image.network(movie.posterPath),
-              Center(
-                  child: Container(
-                color: Colors.white,
-                child: Text(
-                  movie.isarId.toString(),
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w800),
-                ),
-              ))
+              // Center(
+              //     child: Container(
+              //   color: Colors.white,
+              //   child: Text(
+              //     movie.isarId.toString(),
+              //     style: const TextStyle(
+              //         fontSize: 20, fontWeight: FontWeight.w800),
+              //   ),
+              // ))
             ],
           ),
         ),
